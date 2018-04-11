@@ -1,22 +1,41 @@
 package com.sqli.challenge.entities;
 
+import com.sqli.challenge.utils.ProductConstructor;
+
 public abstract class Product
 {
   final String name;
   final int quantity;
   final double price;
-  
+
   Product(String name, int quantity, double price)
   {
     this.name = name;
     this.quantity = quantity;
     this.price = price;
   }
+
+  final Product forAdd (final Product first, final Product second, final ProductConstructor productConstructor)
+  {
+    return productConstructor.call(first.getName(), first.getQuantity() + second.getQuantity(), first.getPrice());
+  }
   
+  final Product forRemoval (final Product first, final Product second, final ProductConstructor productConstructor)
+  {
+    final int newQuantity = first.getQuantity() - second.getQuantity();
+    
+    return newQuantity <= 0 ? null : productConstructor.call(first.getName(), newQuantity, first.getPrice());
+  }
+  
+  public final double getTotalPrice ()
+  {
+    return price * quantity;
+  }
+
   public abstract String groupingByIdentifier ();
   public abstract Product add (final Product product);
   public abstract Product remove (final Product product);
-  
+
   public String getName()
   {
     return name;
@@ -29,7 +48,7 @@ public abstract class Product
 
   public double getPrice()
   {
-    return price * quantity;
+    return price;
   }
 
   @Override

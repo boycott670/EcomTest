@@ -33,7 +33,7 @@ public final class DefaultCartContentPresenter implements CartContentPresenter
         {
           cartContent.append(String.format("\tName: %s", product.getName()));
           cartContent.append(String.format("\tQuantity: %d", product.getQuantity()));
-          cartContent.append(String.format("\tPrice: %.0f\n", product.getPrice()));
+          cartContent.append(String.format("\tPrice: %.0f\n", product.getTotalPrice()));
         });
     }
     

@@ -16,12 +16,12 @@ public final class Capsule extends Product
   @Override
   public Product add(Product product)
   {
-    return null;
+    return forAdd(this, product, Capsule::new);
   }
 
   @Override
   public Product remove(Product product)
   {
-    return null;
+    return forRemoval(this, product, Capsule::new);
   }
 }
