@@ -17,7 +17,9 @@ public final class EcommerceFacade
   
   private void addProduct (final Product product)
   {
-    products.put(product.getName(), product);
+    products.merge(product.getName(),
+        product,
+        (productFromMap, productFromMerge) -> productFromMap.add(product));
   }
   
   public void addMachine (final String code, final int quantity, final int price)

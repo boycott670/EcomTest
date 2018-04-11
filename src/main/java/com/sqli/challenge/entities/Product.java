@@ -2,9 +2,9 @@ package com.sqli.challenge.entities;
 
 public abstract class Product
 {
-  private final String name;
-  private final int quantity;
-  private final double price;
+  final String name;
+  final int quantity;
+  final double price;
   
   Product(String name, int quantity, double price)
   {
@@ -14,6 +14,7 @@ public abstract class Product
   }
   
   public abstract String groupingByIdentifier ();
+  public abstract Product add (final Product product);
   
   public String getName()
   {
