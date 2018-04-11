@@ -15,6 +15,7 @@ public abstract class Product
   
   public abstract String groupingByIdentifier ();
   public abstract Product add (final Product product);
+  public abstract Product remove (final Product product);
   
   public String getName()
   {
@@ -28,7 +29,7 @@ public abstract class Product
 
   public double getPrice()
   {
-    return price;
+    return price * quantity;
   }
 
   @Override

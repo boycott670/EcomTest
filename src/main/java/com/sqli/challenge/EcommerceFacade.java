@@ -17,14 +17,27 @@ public final class EcommerceFacade
   
   private void addProduct (final Product product)
   {
-    products.merge(product.getName(),
+    products.merge(
+        product.getName(),
         product,
         (productFromMap, productFromMerge) -> productFromMap.add(product));
   }
   
-  public void addMachine (final String code, final int quantity, final int price)
+  private void removeProduct (final Product product)
   {
-    addProduct(new Machine(code, quantity, price));
+    products.computeIfPresent(
+        product.getName(),
+        (productNameToRemove, productToRemove) -> productToRemove.remove(product));
+  }
+  
+  public void addMachine (final String name, final int quantity, final int price)
+  {
+    addProduct(new Machine(name, quantity, price));
+  }
+  
+  public void removeMachine (final String name, final int quantity)
+  {
+    removeProduct(new Machine(name, quantity, 0));
   }
   
   public String cartContent ()

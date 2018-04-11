@@ -6,7 +6,7 @@ public final class Machine extends Product
   {
     super(name, quantity, price);
   }
-  
+
   @Override
   public String groupingByIdentifier()
   {
@@ -16,6 +16,14 @@ public final class Machine extends Product
   @Override
   public Product add(Product product)
   {
-    return new Machine(name, quantity + product.getQuantity(), price + product.getPrice());
+    return new Machine(name, quantity + product.getQuantity(), price);
+  }
+
+  @Override
+  public Product remove(Product product)
+  {
+    final int newQuantity = quantity - product.getQuantity();
+    
+    return newQuantity <= 0 ? null : new Machine(name, newQuantity, price);
   }
 }
