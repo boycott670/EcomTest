@@ -13,6 +13,7 @@ import com.sqli.challenge.presenters.CartContentPresenter;
 import com.sqli.challenge.presenters.DefaultCartContentPresenter;
 import com.sqli.challenge.presenters.DefaultSummaryPresenter;
 import com.sqli.challenge.presenters.SummaryPresenter;
+import com.sqli.challenge.validators.CapsulePackagingRulesValidator;
 import com.sqli.challenge.validators.DomainRulesValidator;
 import com.sqli.challenge.validators.EmptyCartValidator;
 
@@ -23,8 +24,9 @@ public final class EcommerceFacade
 
   private final Map<? super String, Product> products = new HashMap<>();
 
-  private Collection<? extends DomainRulesValidator> validators = Arrays.asList(new EmptyCartValidator());
-  
+  private Collection<? extends DomainRulesValidator> validators = Arrays.asList(new EmptyCartValidator(),
+      new CapsulePackagingRulesValidator());
+
   private Collection<? extends String> validationErrors;
 
   private void addProduct(final Product product)
@@ -72,23 +74,21 @@ public final class EcommerceFacade
   {
     return products.values();
   }
-  
-  public EcommerceFacade order ()
+
+  public EcommerceFacade order()
   {
-    validationErrors = validators.stream()
-        .map(validator -> validator.validate(this))
-        .flatMap(Collection::stream)
+    validationErrors = validators.stream().map(validator -> validator.validate(this)).flatMap(Collection::stream)
         .collect(Collectors.toList());
-    
+
     return this;
   }
-  
-  public boolean hasErrors ()
+
+  public boolean hasErrors()
   {
     return !validationErrors.isEmpty();
   }
-  
-  public String errors ()
+
+  public String errors()
   {
     return String.join("\n", validationErrors);
   }
