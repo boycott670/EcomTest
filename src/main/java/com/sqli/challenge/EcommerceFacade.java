@@ -1,10 +1,9 @@
 package com.sqli.challenge;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import com.sqli.challenge.entities.Capsule;
 import com.sqli.challenge.entities.Machine;
 import com.sqli.challenge.entities.Product;
 import com.sqli.challenge.presenters.CartContentPresenter;
@@ -39,13 +38,14 @@ public final class EcommerceFacade
   {
     removeProduct(new Machine(name, quantity, 0));
   }
+
+  public void addCapsule (final String name, final int quantity, final int price)
+  {
+    addProduct(new Capsule(name, quantity, price));
+  }
   
   public String cartContent ()
   {
-    return cartContentPresenter.presentCartContent(
-        products.values()
-          .stream()
-          .collect(Collectors.groupingBy(Product::groupingByIdentifier)),
-        Comparator.comparing(Product::getName));
+    return cartContentPresenter.presentCartContent(products.values());
   }
 }
