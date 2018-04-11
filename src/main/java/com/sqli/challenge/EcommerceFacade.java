@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.sqli.challenge.entities.Capsule;
 import com.sqli.challenge.entities.Machine;
 import com.sqli.challenge.entities.Product;
+import com.sqli.challenge.entities.Voucher;
 import com.sqli.challenge.presenters.CartContentPresenter;
 import com.sqli.challenge.presenters.DefaultCartContentPresenter;
 import com.sqli.challenge.presenters.DefaultSummaryPresenter;
@@ -16,27 +17,30 @@ import com.sqli.challenge.presenters.SummaryPresenter;
 import com.sqli.challenge.validators.CapsulePackagingRulesValidator;
 import com.sqli.challenge.validators.DomainRulesValidator;
 import com.sqli.challenge.validators.EmptyCartValidator;
+import com.sqli.challenge.validators.VoucherCodeValidator;
 
 public final class EcommerceFacade
 {
   private final CartContentPresenter cartContentPresenter = new DefaultCartContentPresenter();
   private final SummaryPresenter summaryPresenter = new DefaultSummaryPresenter();
 
-  private final Map<? super String, Product> products = new HashMap<>();
+  private Voucher voucher;
+  private final Map<? super String, Product> cart = new HashMap<>();
 
   private Collection<? extends DomainRulesValidator> validators = Arrays.asList(new EmptyCartValidator(),
-      new CapsulePackagingRulesValidator());
+      new CapsulePackagingRulesValidator(),
+      new VoucherCodeValidator());
 
   private Collection<? extends String> validationErrors;
 
   private void addProduct(final Product product)
   {
-    products.merge(product.getName(), product, (productFromMap, productFromMerge) -> productFromMap.add(product));
+    cart.merge(product.getName(), product, (productFromMap, productFromMerge) -> productFromMap.add(product));
   }
 
   private void removeProduct(final Product product)
   {
-    products.computeIfPresent(product.getName(),
+    cart.computeIfPresent(product.getName(),
         (productNameToRemove, productToRemove) -> productToRemove.remove(product));
   }
 
@@ -72,7 +76,7 @@ public final class EcommerceFacade
 
   public Collection<Product> getCartContent()
   {
-    return products.values();
+    return cart.values();
   }
 
   public EcommerceFacade order()
@@ -91,5 +95,15 @@ public final class EcommerceFacade
   public String errors()
   {
     return String.join("\n", validationErrors);
+  }
+  
+  public void voucher (final String voucherCode)
+  {
+    voucher = new Voucher(voucherCode);
+  }
+  
+  public Voucher getVoucher ()
+  {
+    return voucher;
   }
 }
