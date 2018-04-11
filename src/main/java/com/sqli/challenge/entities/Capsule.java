@@ -7,6 +7,16 @@ public final class Capsule extends Product
     super(name, quantity, price);
   }
 
+  private Capsule(String name, int quantity)
+  {
+    super(name, quantity);
+  }
+
+  public static Capsule forRemoval (final String name, final int quantity)
+  {
+    return new Capsule(name, quantity);
+  }
+
   @Override
   public String groupingByIdentifier()
   {

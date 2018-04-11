@@ -14,6 +14,11 @@ public abstract class Product
     this.quantity = quantity;
     this.price = price;
   }
+  
+  Product(String name, int quantity)
+  {
+    this(name, quantity, 0);
+  }
 
   final Product forAdd (final Product first, final Product second, final ProductConstructor productConstructor)
   {

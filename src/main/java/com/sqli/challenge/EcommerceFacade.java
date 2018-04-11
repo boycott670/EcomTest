@@ -36,12 +36,17 @@ public final class EcommerceFacade
   
   public void removeMachine (final String name, final int quantity)
   {
-    removeProduct(new Machine(name, quantity, 0));
+    removeProduct(Machine.forRemoval(name, quantity));
   }
 
   public void addCapsule (final String name, final int quantity, final int price)
   {
     addProduct(new Capsule(name, quantity, price));
+  }
+  
+  public void removeCapsule (final String name, final int quantity)
+  {
+    removeProduct(Capsule.forRemoval(name, quantity));
   }
   
   public String cartContent ()

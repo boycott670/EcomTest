@@ -6,6 +6,16 @@ public final class Machine extends Product
   {
     super(name, quantity, price);
   }
+  
+  private Machine(String name, int quantity)
+  {
+    super(name, quantity);
+  }
+
+  public static Machine forRemoval (final String name, final int quantity)
+  {
+    return new Machine(name, quantity);
+  }
 
   @Override
   public String groupingByIdentifier()
