@@ -8,10 +8,14 @@ import com.sqli.challenge.entities.Machine;
 import com.sqli.challenge.entities.Product;
 import com.sqli.challenge.presenters.CartContentPresenter;
 import com.sqli.challenge.presenters.DefaultCartContentPresenter;
+import com.sqli.challenge.presenters.DefaultSummaryPresenter;
+import com.sqli.challenge.presenters.SummaryPresenter;
 
 public final class EcommerceFacade
 {
   private final CartContentPresenter cartContentPresenter = new DefaultCartContentPresenter();
+  private final SummaryPresenter summaryPresenter = new DefaultSummaryPresenter();
+  
   private final Map<? super String, Product> products = new HashMap<>();
   
   private void addProduct (final Product product)
@@ -52,5 +56,10 @@ public final class EcommerceFacade
   public String cartContent ()
   {
     return cartContentPresenter.presentCartContent(products.values());
+  }
+  
+  public String summary ()
+  {
+    return summaryPresenter.presentSummary(products.values());
   }
 }
