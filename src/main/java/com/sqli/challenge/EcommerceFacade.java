@@ -18,6 +18,7 @@ import com.sqli.challenge.validators.CapsulePackagingRulesValidator;
 import com.sqli.challenge.validators.DomainRulesValidator;
 import com.sqli.challenge.validators.EmptyCartValidator;
 import com.sqli.challenge.validators.VoucherCodeValidator;
+import com.sqli.challenge.validators.VoucherRequiresMachinePurchaseValidator;
 
 public final class EcommerceFacade
 {
@@ -28,8 +29,7 @@ public final class EcommerceFacade
   private final Map<? super String, Product> cart = new HashMap<>();
 
   private Collection<? extends DomainRulesValidator> validators = Arrays.asList(new EmptyCartValidator(),
-      new CapsulePackagingRulesValidator(),
-      new VoucherCodeValidator());
+      new CapsulePackagingRulesValidator(), new VoucherCodeValidator(), new VoucherRequiresMachinePurchaseValidator());
 
   private Collection<? extends String> validationErrors;
 
@@ -40,8 +40,7 @@ public final class EcommerceFacade
 
   private void removeProduct(final Product product)
   {
-    cart.computeIfPresent(product.getName(),
-        (productNameToRemove, productToRemove) -> productToRemove.remove(product));
+    cart.computeIfPresent(product.getName(), (productNameToRemove, productToRemove) -> productToRemove.remove(product));
   }
 
   public void addMachine(final String name, final int quantity, final int price)
@@ -96,13 +95,13 @@ public final class EcommerceFacade
   {
     return String.join("\n", validationErrors);
   }
-  
-  public void voucher (final String voucherCode)
+
+  public void voucher(final String voucherCode)
   {
     voucher = new Voucher(voucherCode);
   }
-  
-  public Voucher getVoucher ()
+
+  public Voucher getVoucher()
   {
     return voucher;
   }
